@@ -1,7 +1,7 @@
 module.exports = mongoose => {
   const schema = mongoose.Schema({
     name: String,
-    age: Number,
+    age: String,
     email: String,
     gender: String,
   })

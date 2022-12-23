@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 type datas = {
   name: String,
@@ -9,17 +10,10 @@ type datas = {
   id: String,
 }[]
 
-const editHandler = (id: String) => {
-
-}
-
-const deleteHandler = (id: String) => {
-
-}
-
 export const DataTable = () => {
   const [datas, setDatas] = useState<datas|[]>([]);
-  
+  const navigate = useNavigate();
+
   useEffect(()=>{
     axios.get('http://localhost:3000/').then((response)=>response.data)
     .then(data =>{ 
@@ -28,6 +22,14 @@ export const DataTable = () => {
     })
     .catch(err => console.log(err.message))
   },[])
+
+  const editHandler = (id: String) => {
+    navigate(`/${id}`)
+  }
+  
+  const deleteHandler = (id: String) => {
+  
+  }
 
   if(!datas){
     return <h1>Loading . . .</h1>
@@ -58,7 +60,7 @@ export const DataTable = () => {
                 <td className='text-center'>{data.email}</td>
                 <td className='text-center'>{data.gender}</td>
                 <td>
-                  <div className='flex gap-5 w-auto justify-center'>
+                  <div className='flex gap-5 w-auto justify-center sm:flex-col md:flex-row'>
                     <button className='bg-teal-500 py-1 px-2 rounded font-semibold' onClick={()=> editHandler(data.id)}>Edit</button>
                     <button className='bg-red-600 py-1 px-2 rounded font-semibold' onClick={()=> deleteHandler(data.id)}>Delete</button>
                   </div>

@@ -1,7 +1,8 @@
-import axios from 'axios';
 import React from 'react'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom';
+import {useForm} from 'react-hook-form'
+type FormTypes = {
+  onSubmit: ()=>void
+}
 
 type UserData = {
   name: String,
@@ -11,25 +12,11 @@ type UserData = {
   id: String,
 }
 
-export const AddForm = () => {
+export const Form = ({onSubmit}:FormTypes) => {
   const {register, handleSubmit} = useForm<UserData>();
-  const navigate = useNavigate();
-
-  const onSubmit = handleSubmit((data) => {
-    axios.post('http://localhost:3000/add', {
-      ...data
-    }).then(()=>{
-      console.log("success");
-      navigate('/');
-    })
-    .catch(err => console.log(err.message))
-  })
 
   return (
-    <div className=''>
-      <h1 className='mb-3 font-extrabold text-4xl'>Add User</h1>
-      <div className='mx-auto p-5 bg-black/10 rounded border border-slate-600 w-[50%]'>
-      <form className='flex flex-col' onSubmit={onSubmit}>
+    <form className='flex flex-col' onSubmit={onSubmit}>
           <label htmlFor="Name">Name</label>
           <input className=' rounded p-1 mt-1 text-black' {...register('name')} id="Name" type="text" required placeholder='Name'/>
           <label className='mt-2' htmlFor="Age">Age</label>
@@ -47,7 +34,5 @@ export const AddForm = () => {
             </button>
           </div>
       </form>
-      </div>
-    </div>
   )
 }
